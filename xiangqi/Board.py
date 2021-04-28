@@ -1,6 +1,7 @@
 import pygame
 from .constrant import SQUARE_SIZE, COLS, ROWS, BROWN, YELLOW, BOARD_SIZE, BLACK
 from .Pieces import *
+pygame.init()
 
 BLACK_POS = []
 BLACK_POS.append(chariot(0,0,'black'))

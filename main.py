@@ -1,4 +1,5 @@
 import pygame
+pygame.init()
 
 from xiangqi.constrant import WINDOW_SIZE
 from xiangqi.Board import Board
@@ -8,6 +9,7 @@ FPS = 60
 WIN = pygame.display.set_mode(WINDOW_SIZE)
 
 running = True
+
 
 def main():
     run = True
