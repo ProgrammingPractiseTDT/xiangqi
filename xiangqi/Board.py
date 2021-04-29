@@ -18,15 +18,15 @@ for i in range(0,9,2):
 
 
 RED_POS = []
-RED_POS.append(chariot(8,0,'red'))
-RED_POS.append(horse(8,1,'red'))
-RED_POS.append(elephant(8,2,'red'))
-RED_POS.append(advisor(8,3,'red'))
-RED_POS.append(general(8,4,'red'))
-RED_POS.append(advisor(8,5,'red'))
-RED_POS.append(elephant(8,6,'red'))
-RED_POS.append(horse(8,7,'red'))
-RED_POS.append(chariot(8,8,'red'))
+RED_POS.append(chariot(9,8,'red'))
+RED_POS.append(horse(9,7,'red'))
+RED_POS.append(elephant(9,6,'red'))
+RED_POS.append(advisor(9,5,'red'))
+RED_POS.append(general(9,4,'red'))
+RED_POS.append(advisor(9,3,'red'))
+RED_POS.append(elephant(9,2,'red'))
+RED_POS.append(horse(9,1,'red'))
+RED_POS.append(chariot(9,0,'red'))
 for i in range(0,9,2):
     RED_POS.append(soldier(5,i,'red'))
 
