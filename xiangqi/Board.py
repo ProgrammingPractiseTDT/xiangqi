@@ -13,6 +13,23 @@ BLACK_POS.append(advisor(0,5,'black'))
 BLACK_POS.append(elephant(0,6,'black'))
 BLACK_POS.append(horse(0,7,'black'))
 BLACK_POS.append(chariot(0,8,'black'))
+for i in range(0,9,2):
+    BLACK_POS.append(soldier(3,i,'black'))
+
+
+RED_POS = []
+RED_POS.append(chariot(8,0,'red'))
+RED_POS.append(horse(8,1,'red'))
+RED_POS.append(elephant(8,2,'red'))
+RED_POS.append(advisor(8,3,'red'))
+RED_POS.append(general(8,4,'red'))
+RED_POS.append(advisor(8,5,'red'))
+RED_POS.append(elephant(8,6,'red'))
+RED_POS.append(horse(8,7,'red'))
+RED_POS.append(chariot(8,8,'red'))
+for i in range(0,9,2):
+    RED_POS.append(soldier(5,i,'red'))
+
 
 class Board:
     def __init__(self):
@@ -38,4 +55,6 @@ class Board:
 
     def draw_pieces(self, sur):
         for i in BLACK_POS:
+            i.draw(sur)
+        for i in RED_POS:
             i.draw(sur)

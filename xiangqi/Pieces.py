@@ -16,7 +16,7 @@ class advisor:
         self.calculate_pos()
         print(PADDING)
         if self.color == 'red':
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/advisor_black.png')).convert(), (PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/advisor_red.png')).convert(), (PADDING, PADDING))
         if self.color == "black":
             self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/advisor_black.png')).convert(),(PADDING, PADDING))
 
@@ -107,6 +107,11 @@ class general:
 
     def draw(self, sur):
         sur.blit(self.img, (self.x, self.y))
+    
+    def possible_moves(self):
+        if color == 'black':
+            L = [(3,0), (4,0), (5,0), (3,1), (4,1), (5,1), (3,2), (4,2), (5,2)]
+            # if 
 
 class horse:
     def __init__(self, col, row, color):
