@@ -16,9 +16,9 @@ class advisor:
         self.calculate_pos()
         print(PADDING)
         if self.color == 'red':
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/advisor_red.png')).convert(), (PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/advisor_red.png')), (PADDING, PADDING))
         if self.color == "black":
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/advisor_black.png')).convert(),(PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/advisor_black.png')),(PADDING, PADDING))
 
     def calculate_pos(self):
         self.x = 40 - PADDING//2 + (SQUARE_SIZE * self.col)
@@ -46,9 +46,9 @@ class chariot:
         self.x = 0
         self.calculate_pos()
         if self.color == 'red':
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/chariot_red.png')).convert(), (PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/chariot_red.png')), (PADDING, PADDING))
         if self.color == 'black':
-            self.img = pygame.transform.scale( pygame.image.load(os.path.join('Assests/chariot_black.png')).convert() , (PADDING, PADDING))
+            self.img = pygame.transform.scale( pygame.image.load(os.path.join('Assests/chariot_black.png')) , (PADDING, PADDING))
 
     def calculate_pos(self):
         self.x = 40 - PADDING//2 + (SQUARE_SIZE * self.col)
@@ -75,9 +75,9 @@ class cannon:
         self.x = 0
         self.calculate_pos()
         if self.color == 'red':
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/cannon_red.png')).convert(), (PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/cannon_red.png')), (PADDING, PADDING))
         if self.color == "black":
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/cannon_black.png')).convert(),(PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/cannon_black.png')),(PADDING, PADDING))
 
     def calculate_pos(self):
         self.x = 40 - PADDING//2 + (SQUARE_SIZE * self.col)
@@ -102,9 +102,9 @@ class elephant:
         self.x = 0
         self.calculate_pos()
         if self.color == 'red':
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/elephant_red.png')).convert(), (PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/elephant_red.png')), (PADDING, PADDING))
         if self.color == "black":
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/elephant_black.png')).convert(),(PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/elephant_black.png')),(PADDING, PADDING))
 
     def calculate_pos(self):
         self.x = 40 - PADDING//2 + (SQUARE_SIZE * self.col)
@@ -131,9 +131,9 @@ class general:
         self.x = 0
         self.calculate_pos()
         if self.color == 'red':
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/general_red.png')).convert(), (PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/general_red.png')), (PADDING, PADDING))
         if self.color == "black":
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/general_black.png')).convert(),(PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/general_black.png')),(PADDING, PADDING))
 
     def calculate_pos(self):
         self.x = 40 - PADDING//2 + (SQUARE_SIZE * self.col)
@@ -163,9 +163,9 @@ class horse:
         self.x = 0
         self.calculate_pos()
         if self.color == 'red':
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/horse_red.png')).convert(), (PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/horse_red.png')), (PADDING, PADDING))
         if self.color == "black":
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/horse_black.png')).convert(),(PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/horse_black.png')),(PADDING, PADDING))
 
     def calculate_pos(self):
         self.x = 40 - PADDING//2 + (SQUARE_SIZE * self.col)
@@ -204,9 +204,9 @@ class soldier:
         self.x = 0
         self.calculate_pos()
         if self.color == 'red':
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/soldier_red.png')).convert(), (PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/soldier_red.png')), (PADDING, PADDING))
         if self.color == "black":
-            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/soldier_black.png')).convert(),(PADDING, PADDING))
+            self.img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/soldier_black.png')),(PADDING, PADDING))
 
     def calculate_pos(self):
         self.x = 40 - PADDING//2 + (SQUARE_SIZE * self.col)
