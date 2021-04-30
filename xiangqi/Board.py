@@ -1,38 +1,40 @@
 import pygame
 from .constrant import SQUARE_SIZE, COLS, ROWS, BROWN, YELLOW, BOARD_SIZE, BLACK
 from .Pieces import *
+import os
 pygame.init()
-
+#heuristic
+heuristic = {'general': 100, 'chariot':9, 'hourse':5, 'cannon' :4, 'soldier':1, 'elephant': 2, 'advisor':2}
 BLACK_POS = []
-BLACK_POS.append(chariot(0,0,'black'))
-BLACK_POS.append(horse(0,1,'black'))
-BLACK_POS.append(elephant(0,2,'black'))
-BLACK_POS.append(advisor(0,3,'black'))
-BLACK_POS.append(general(0,4,'black'))
-BLACK_POS.append(advisor(0,5,'black'))
-BLACK_POS.append(elephant(0,6,'black'))
-BLACK_POS.append(horse(0,7,'black'))
-BLACK_POS.append(chariot(0,8,'black'))
-BLACK_POS.append(cannon(2,1,'black'))
-BLACK_POS.append(cannon(2,7,'black'))
+BLACK_POS.append(chariot('chariot',0,0,'black'))
+BLACK_POS.append(horse('hourse',0,1,'black'))
+BLACK_POS.append(elephant('elephant',0,2,'black'))
+BLACK_POS.append(advisor('advisor',0,3,'black'))
+BLACK_POS.append(general('general',0,4,'black'))
+BLACK_POS.append(advisor('advisor',0,5,'black'))
+BLACK_POS.append(elephant('elephant',0,6,'black'))
+BLACK_POS.append(horse('hourse',0,7,'black'))
+BLACK_POS.append(chariot('chariot',0,8,'black'))
+BLACK_POS.append(cannon('cannon',2,1,'black'))
+BLACK_POS.append(cannon('cannon',2,7,'black'))
 for i in range(0,9,2):
-    BLACK_POS.append(soldier(3,i,'black'))
+    BLACK_POS.append(soldier('solider',3,i,'black'))
 
 
 RED_POS = []
-RED_POS.append(chariot(9,8,'red'))
-RED_POS.append(horse(9,7,'red'))
-RED_POS.append(elephant(9,6,'red'))
-RED_POS.append(advisor(9,5,'red'))
-RED_POS.append(general(9,4,'red'))
-RED_POS.append(advisor(9,3,'red'))
-RED_POS.append(elephant(9,2,'red'))
-RED_POS.append(horse(9,1,'red'))
-RED_POS.append(chariot(9,0,'red'))
-RED_POS.append(cannon(7,1,'red'))
-RED_POS.append(cannon(7,7,'red'))
+RED_POS.append(chariot('chariot',9,8,'red'))
+RED_POS.append(horse('hourse',9,7,'red'))
+RED_POS.append(elephant('elephant',9,6,'red'))
+RED_POS.append(advisor('advisor',9,5,'red'))
+RED_POS.append(general('general',9,4,'red'))
+RED_POS.append(advisor('advisor',9,3,'red'))
+RED_POS.append(elephant('elephant',9,2,'red'))
+RED_POS.append(horse('hourse',9,1,'red'))
+RED_POS.append(chariot('chariot',9,0,'red'))
+RED_POS.append(cannon('cannon',7,1,'red'))
+RED_POS.append(cannon('cannon',7,7,'red'))
 for i in range(0,9,2):
-    RED_POS.append(soldier(6,i,'red'))
+    RED_POS.append(soldier('soldier',6,i,'red'))
 
 
 def cross_of_point(row,col):
@@ -44,11 +46,13 @@ class Board:
         self.board = [[None for _ in range(COLS+1) ] for _ in range(ROWS+1) ]
         self.turn = 0
         self.red_pieces = self.black_pieces = 16
-        self.red_super_soldier = self.black_super_soldier = 0
+        self.score = 0
+
 
         #create back -end start game position
         for black_piece in BLACK_POS:
             row,col = black_piece.row, black_piece.col
+            # print('aka',row,col)
             self.board[row][col] = black_piece
         for red_piece in RED_POS:
             row,col = red_piece.row, red_piece.col
@@ -76,37 +80,137 @@ class Board:
         sur.blit(the_board, (40,40))
 
     def draw_pieces(self, sur):
-        for i in BLACK_POS:
-            i.draw(sur)
-        for i in RED_POS:
-            i.draw(sur)
+        for i in range(ROWS+1):
+            for j in range(COLS+1):
+                if self.board[i][j] != None:
+                    self.board[i][j].draw(sur)
     
     def capture(self, piece, new_row, new_col):
+                #prepare calculate score
+                captured_piece = self.board[new_row][new_col]
+                if piece.color == 'black':
+                  score = -heuristic[captured_piece.name]
+                else:
+                  score = heuristic[captured_piece.name]
+
+
+
+
+                row_piece, col_piece = piece.row, piece.col
                 if piece in self.hourse_constraint:#check if its a hourse capture must follow rule
-                    row_piece, col_piece = piece.row, piece.col
-                    for point in cross_of_point[row_piece][col_piece]:#check around the hourse if there another piece
-                        if self.board[point[0]][point[1]] !=None:
-                             if (new_row, new_col)  in cross_of_point(point[0], point[1]):
-                                return False
+                    #oke
+                            for point in cross_of_point(row_piece,col_piece):#check around the hourse if there another piece
+                                if self.board[point[0]][point[1]] !=None:
+                                    print('alo')
+                                    if (new_row, new_col)  in diagonal_of_point(point[0], point[1]):
+                                        print('alo yess')
+                                        return False
+                        
+                            else:   
+                                    destroy_piece = self.board[new_row][new_col]
+                                    self.board[piece.row][piece.col] = None #remove current piece position
+                                    del destroy_piece
+                                    self.board[new_row][new_col] = piece #move it to new position
+                                    piece.row = new_row
+                                    piece.col = new_col
+                                    self.score += score
+                                    return True
                 
-                    else:   
-                            destroy_piece = self.board[new_row][new_col]
-                            self.board[piece.row][piece.col] = None #remove current piece position
-                            del destroy_piece
-                            self.board[new_row][new_col] = piece #move it to new position
-                            return True
+                if piece in self.cannon_constraint:
+                            count = 0
+                            if new_row == row_piece:
+                                step = new_col - col_piece
+                                if step > 0:
+                                    step = 1
+                                if step < 0:
+                                    step = -1
+                                for i in range(col_piece+step, new_col, step):
+                                    if self.board[row_piece][i] !=None:
+                                        if self.board[row_piece][i].color != piece.color:
+                                            return False
+                                        elif self.board[row_piece][i].color == piece.color:
+                                                count+=1
+                                
+                                if count ==1:
+                                    destroyed_piece = self.board[new_row][new_col]
+                                    del destroyed_piece
+                                    self.board[new_row][new_col] = None
+                                    self.board[new_row][new_col] = piece
+                                    self.board[row_piece][col_piece] = None
+                                    piece.row = new_row
+                                    piece.col = new_col
+                                    self.score += score
+                                    return True
+                            if new_col == col_piece:
+                                step = new_row - row_piece
+                                if step > 0:
+                                    step = 1
+                                if step < 0:
+                                    step = -1
+                                
+                                for i in range(row_piece+step, new_row, step):
+                                    if self.board[i][col_piece] !=None:
+                                        if self.board[i][col_piece].color != piece.color:
+                                            return False
+                                        elif self.board[i][col_piece].color == piece.color:
+                                                count+=1
+                                if count ==1:
+                                    destroyed_piece = self.board[new_row][new_col]
+                                    del destroyed_piece
+                                    self.board[new_row][new_col] = None
+                                    self.board[new_row][new_col] = piece
+                                    self.board[row_piece][col_piece] = None
+                                    piece.row = new_row
+                                    piece.col = new_col
+                                    self.score += score
+                                    return True
+                            return False
                     
+                destroyed_piece = self.board[new_row][new_col]
+                self.board[new_row][new_col] = None
+                del destroyed_piece
+                self.board[new_row][new_col] = piece
+                self.board[row_piece][col_piece] = None
+                piece.row = new_row
+                piece.col = new_col
+                self.score += score
+                return True
             
-        
+                            
+                                  
+                    
 
     
     def move(self,piece, new_row, new_col):
-         if (new_row, new_col) in piece.possible_moves:
-                if self.board[new_row][new_col] == None:
-                        self.board[piece.row][piece.col] = None #remove current piece position
-                        self.board[new_row][new_col] = piece #move it to new position
-                        return True
-                elif self.board[new_row][new_col].color == piece.color:
-                    return False
-                elif self.board[new_row][new_col].color != piece.color:
-                    return self.capture(piece, new_row, new_col)
+        if piece != None:
+
+            if (new_row, new_col) in piece.possible_moves():
+                    if self.board[new_row][new_col] == None:
+                            self.board[piece.row][piece.col] = None
+                            piece.row = new_row
+                            piece.col = new_col
+                             #remove current piece position
+                            self.board[new_row][new_col] = piece #move it to new position
+                            return True
+                    elif self.board[new_row][new_col].color == piece.color:
+                        return False
+                    elif self.board[new_row][new_col].color != piece.color:
+                        return self.capture(piece, new_row, new_col)
+    
+
+
+    def draw_circle(self,y,x, sur):
+      x = 40 - PADDING//2 + (SQUARE_SIZE * x)
+      y = 40 - PADDING//2 + (SQUARE_SIZE * y)
+
+      img  = pygame.transform.scale(pygame.image.load(os.path.join('Assests/circle.png')), (PADDING, PADDING))
+      sur.blit(img, (x,y))
+
+    
+    def is_game_over(self):
+        if self.score >= 100:
+            return 'Red'
+        if self.score <= -100:
+            return 'Black'
+        
+        return False

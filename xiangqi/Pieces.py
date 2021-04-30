@@ -7,7 +7,8 @@ pygame.init()
 pygame.display.set_mode()
 
 class advisor:
-    def __init__(self, row, col, color):
+    def __init__(self,name, row, col, color):
+        self.name = name
         self.col = col
         self.row = row
         self.color = color
@@ -25,6 +26,7 @@ class advisor:
         self.y = 40 - PADDING//2 + (SQUARE_SIZE * self.row)
 
     def draw(self, sur):
+        self.calculate_pos()
         sur.blit(self.img, (self.x, self.y))
     def possible_moves(self):
         moves = [(self.row -1 , self.col-1),(self.row + 1 , self.col+1), (self.row+1, self.col -1), (self.row-1, self.col +1)]
@@ -38,7 +40,8 @@ class advisor:
         return [ move for move in moves if move in constraint]
 
 class chariot:
-    def __init__(self, row, col, color):
+    def __init__(self,name, row, col, color):
+        self.name = name
         self.col = col
         self.row = row
         self.color = color
@@ -56,6 +59,7 @@ class chariot:
 
         
     def draw(self, sur):
+        self.calculate_pos()
         sur.blit(self.img, (self.x, self.y))
     
     def possible_moves(self):
@@ -67,7 +71,8 @@ class chariot:
 
 
 class cannon:
-    def __init__(self, row, col, color):
+    def __init__(self,name, row, col, color):
+        self.name = name
         self.col = col
         self.row = row
         self.color = color
@@ -84,6 +89,7 @@ class cannon:
         self.y = 40 - PADDING//2 + (SQUARE_SIZE * self.row)
 
     def draw(self, sur):
+        self.calculate_pos()
         sur.blit(self.img, (self.x, self.y))
     
     def possible_moves(self):
@@ -94,7 +100,8 @@ class cannon:
         return moves
 
 class elephant:
-    def __init__(self, row, col, color):
+    def __init__(self,name, row, col, color):
+        self.name = name
         self.col = col
         self.row = row
         self.color = color
@@ -111,6 +118,7 @@ class elephant:
         self.y = 40 - PADDING//2 + (SQUARE_SIZE * self.row)
 
     def draw(self, sur):
+        self.calculate_pos()
         sur.blit(self.img, (self.x, self.y))
     
     def possible_moves(self):
@@ -123,7 +131,8 @@ class elephant:
 
 
 class general:
-    def __init__(self, row, col, color):
+    def __init__(self,name, row, col, color):
+        self.name = name
         self.col = col
         self.row = row
         self.color = color
@@ -140,6 +149,7 @@ class general:
         self.y = 40 - PADDING//2 + (SQUARE_SIZE * self.row)
 
     def draw(self, sur):
+        self.calculate_pos()
         sur.blit(self.img, (self.x, self.y))
     
     def possible_moves(self):
@@ -155,7 +165,8 @@ class general:
         
 
 class horse:
-    def __init__(self, row, col, color):
+    def __init__(self,name, row, col, color):
+        self.name = name
         self.col = col
         self.row = row
         self.color = color
@@ -172,6 +183,7 @@ class horse:
         self.y = 40 - PADDING//2 + (SQUARE_SIZE * self.row)
 
     def draw(self, sur):
+        self.calculate_pos()
         sur.blit(self.img, (self.x, self.y))
 
     def possible_moves(self):
@@ -196,7 +208,8 @@ class horse:
                
 
 class soldier:
-    def __init__(self, row, col, color):
+    def __init__(self,name, row, col, color):
+        self.name = name
         self.col = col
         self.row = row
         self.color = color
@@ -213,6 +226,7 @@ class soldier:
         self.y = 40 - PADDING//2 + (SQUARE_SIZE * self.row)
 
     def draw(self, sur):
+        self.calculate_pos()
         sur.blit(self.img, (self.x, self.y))
     
 
@@ -223,7 +237,8 @@ class soldier:
             else:
                     moves = [ (self.row +1 , self.col )]
                     if self.row > 4:
-                        moves.append((self.row , self.col -1 ),(self.row + 1 , self.col), (self.row, self.col +1))
+                        moves.append( (self.row , self.col-1))
+                        moves.append( (self.row, self.col +1))
                     
                         
         elif self.color == 'red':
@@ -232,6 +247,7 @@ class soldier:
             else:
                     moves = [ (self.row -1 , self.col)]
                     if self.row < 5:
-                        moves.append((self.row - 1 , self.col),(self.row , self.col-1), (self.row, self.col +1))
+                        moves.append( (self.row , self.col-1))
+                        moves.append( (self.row, self.col +1))
     
         return [ move for move in moves if 0<=move[0]<=9 and 0<=move[1]<=8] #move with constraint

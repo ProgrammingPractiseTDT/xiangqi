@@ -6,29 +6,75 @@ from xiangqi.Board import Board
 from xiangqi.Pieces import *
 
 FPS = 60
-WIN = pygame.display.set_mode(WINDOW_SIZE)
+WIN = pygame.display.set_mode((WINDOW_SIZE))
 
 running = True
-
 
 def main():
     run = True
     clock = pygame.time.Clock()
+    event = pygame.event.get()
     board = Board()
     # black_advisor = advisor(0, 0, 'black')
-    print('general possible move ', general(0,4,'black').possible_moves())
-    while run:
-        clock.tick(FPS)
-        mouse_pos = pygame.mouse.get_pos()
-        rowcol = (mouse_pos[1]//80, mouse_pos[0] // 80 )
-        
-        #print(rowcol)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-        board.draw_board(WIN)
+    # board.board[1][4].draw(WIN)
+    board.draw_board(WIN)
         # black_advisor.draw(WIN)
-        board.draw_pieces(WIN)
+    board.draw_pieces(WIN)
+    select = False
+    while run:
+       
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            
+            if event.type == pygame.QUIT:
+                    run = False
+
+            if event.type == pygame.MOUSEBUTTONUP and select == False:
+                
+                    mouse_pos = pygame.mouse.get_pos()
+                    row,col = mouse_pos[1]//80, mouse_pos[0] // 80
+                    print(row,col)
+                    print(board.draw_circle(row,col, WIN))
+                    print('select',select)
+                    select = True
+                
+                # for event in pygame.event.get():
+            # elif event.type == pygame.MOUSEMOTION:
+                 
+            #         select = True
+            elif event.type == pygame.MOUSEBUTTONUP and select== True:
+                
+                    mouse_pos = pygame.mouse.get_pos()
+                    end_row,end_col = mouse_pos[1]//80, mouse_pos[0] // 80 
+                    board.move(board.board[row][col],end_row,end_col)
+                    print(board.score)
+                    board.draw_board(WIN)
+                    board.draw_pieces(WIN)
+                    select = False
+        if board.is_game_over() != False:
+            if board.is_game_over() == 'Red':
+                img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/player_win.png')), (90, 90))
+                WIN.blit(img, (350,350))
+            else:
+                img = pygame.transform.scale(pygame.image.load(os.path.join('Assests/player_lose.png')), (90, 90))
+                WIN.blit(img, (350,350))
+            
+            run = False
+
+            
+                    
+        
+                
+                
+                
+                
+                
+                
+            
+            #print(rowcol)
+            
+                
         pygame.display.update()
+    pygame.event.wait(1000000)
     pygame.quit()
 main()
