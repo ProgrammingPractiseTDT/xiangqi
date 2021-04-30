@@ -16,6 +16,7 @@ def main():
     clock = pygame.time.Clock()
     board = Board()
     # black_advisor = advisor(0, 0, 'black')
+    print('general possible move ', general(0,4,'black').possible_moves())
     while run:
         clock.tick(FPS)
         mouse_pos = pygame.mouse.get_pos()

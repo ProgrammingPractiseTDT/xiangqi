@@ -32,10 +32,13 @@ RED_POS.append(chariot(9,0,'red'))
 RED_POS.append(cannon(7,1,'red'))
 RED_POS.append(cannon(7,7,'red'))
 for i in range(0,9,2):
-    RED_POS.append(soldier(5,i,'red'))
-print('general: ', general(0,4,'black').possible_moves)
+    RED_POS.append(soldier(6,i,'red'))
 
 
+def cross_of_point(row,col):
+    return [(row+1,col), (row-1, col), (row, col+1), (row, col-1)]
+def diagonal_of_point(row,col):
+    return [(row+1, col+1), (row-1, col-1), (row+1, col-1), (row-1, col+1)]
 class Board:
     def __init__(self):
         self.board = [[None for _ in range(COLS+1) ] for _ in range(ROWS+1) ]
@@ -50,8 +53,12 @@ class Board:
         for red_piece in RED_POS:
             row,col = red_piece.row, red_piece.col
             self.board[row][col] = red_piece
-        
-        print(self.board)
+        self.black_general = self.board[0][4]
+        self.red_general = self.board[9][4]
+        self.hourse_constraint = [self.board[0][1], self.board[0][7], self.board[9][1], self.board[9][7]]
+        self.cannon_constraint = [self.board[2][1], self.board[2][7], self.board[7][1], self.board[7][7]]
+
+        # print(self.cannon_constraint)
 
     def draw_board(self, sur):
         sur.fill(BROWN)
@@ -73,3 +80,33 @@ class Board:
             i.draw(sur)
         for i in RED_POS:
             i.draw(sur)
+    
+    def capture(self, piece, new_row, new_col):
+                if piece in self.hourse_constraint:#check if its a hourse capture must follow rule
+                    row_piece, col_piece = piece.row, piece.col
+                    for point in cross_of_point[row_piece][col_piece]:#check around the hourse if there another piece
+                        if self.board[point[0]][point[1]] !=None:
+                             if (new_row, new_col)  in cross_of_point(point[0], point[1]):
+                                return False
+                
+                    else:   
+                            destroy_piece = self.board[new_row][new_col]
+                            self.board[piece.row][piece.col] = None #remove current piece position
+                            del destroy_piece
+                            self.board[new_row][new_col] = piece #move it to new position
+                            return True
+                    
+            
+        
+
+    
+    def move(self,piece, new_row, new_col):
+         if (new_row, new_col) in piece.possible_moves:
+                if self.board[new_row][new_col] == None:
+                        self.board[piece.row][piece.col] = None #remove current piece position
+                        self.board[new_row][new_col] = piece #move it to new position
+                        return True
+                elif self.board[new_row][new_col].color == piece.color:
+                    return False
+                elif self.board[new_row][new_col].color != piece.color:
+                    return self.capture(piece, new_row, new_col)

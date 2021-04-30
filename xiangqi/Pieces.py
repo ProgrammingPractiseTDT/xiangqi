@@ -26,6 +26,16 @@ class advisor:
 
     def draw(self, sur):
         sur.blit(self.img, (self.x, self.y))
+    def possible_moves(self):
+        moves = [(self.row -1 , self.col-1),(self.row + 1 , self.col+1), (self.row+1, self.col -1), (self.row-1, self.col +1)]
+        if self.color == 'black':
+            #constraint
+            constraint = [(0,3), (0,4), (0,5), (1,4),  (2,3), (2,4), (2,5)]
+            #vertiacally and #horizontally
+        elif self.color == 'red':
+            constraint = [(9,3), (9,4), (9,5),  (8,4),  (7,3), (7,4), (7,5)]
+        
+        return [ move for move in moves if move in constraint]
 
 class chariot:
     def __init__(self, row, col, color):
@@ -47,6 +57,14 @@ class chariot:
         
     def draw(self, sur):
         sur.blit(self.img, (self.x, self.y))
+    
+    def possible_moves(self):
+        moves = [(row,self.col) for row in range(10) if row != self.row]
+        for col in range(9):
+            if col != self.col:
+                moves.append((self.row, col))
+        return moves
+
 
 class cannon:
     def __init__(self, row, col, color):
@@ -67,6 +85,13 @@ class cannon:
 
     def draw(self, sur):
         sur.blit(self.img, (self.x, self.y))
+    
+    def possible_moves(self):
+        moves = [(row,self.col) for row in range(10) if row != self.row]
+        for col in range(9):
+            if col != self.col:
+                moves.append((self.row, col))
+        return moves
 
 class elephant:
     def __init__(self, row, col, color):
@@ -87,6 +112,15 @@ class elephant:
 
     def draw(self, sur):
         sur.blit(self.img, (self.x, self.y))
+    
+    def possible_moves(self):
+        #move  2 space diagonally but can not crossover the river
+        moves = [(self.row+2, self.col+2), (self.row-2, self.col-2), (self.row+2, self.col-2), (self.row-2, self.col+2)] 
+        if self.color == 'black':
+            return [ move for move in moves if 0<=move[0]<=4 and 0<=move[1]<=8]
+        if self.color == 'red':
+            return [ move for move in moves if 5<=move[0]<=9 and 0<=move[1]<=8]
+
 
 class general:
     def __init__(self, row, col, color):
@@ -109,15 +143,15 @@ class general:
         sur.blit(self.img, (self.x, self.y))
     
     def possible_moves(self):
-        moves = [(self.col -1 , self.row),(self.col + 1 , self.row), (self.col, self.row -1), (self.col, self.row +1)]
-        if color == 'black':
+        moves = [(self.row -1 , self.col),(self.row + 1 , self.col), (self.row, self.col -1), (self.row, self.col +1)]
+        if self.color == 'black':
             #constraint
             constraint = [(0,3), (0,4), (0,5), (1,3), (1,4), (1,5), (2,3), (2,4), (2,5)]
             #vertiacally and #horizontally
-        elif color == 'red':
+        elif self.color == 'red':
             constraint = [(9,3), (9,4), (9,5), (8,3), (8,4), (8,5), (7,3), (7,4), (7,5)]
         
-        return [i for i in moves if i in constraint]
+        return [ move for move in moves if move in constraint]
         
 
 class horse:
@@ -139,6 +173,28 @@ class horse:
 
     def draw(self, sur):
         sur.blit(self.img, (self.x, self.y))
+
+    def possible_moves(self):
+            moves = []
+            #add one more horizontally space move
+            move= (self.row, self.col +1)#right
+               
+            moves.append( (move[0]+1, move[1]+1))
+            moves.append( (move[0]-1, move[1]+1))
+            move = (self.row+1, self.col)#bottom
+            moves.append( (move[0]+1, move[1]+1))
+            moves.append((move[0]+1, move[1]-1))
+            move = (self.row, self.col -1)#left
+            moves.append( (move[0]-1, move[1] -1))
+            moves.append( (move[0]+1, move[1] -1))
+            move = (self.row-1, self.col)#above
+            moves.append( (move[0]-1, move[1] -1))
+            moves.append( (move[0]-1, move[1] +1))
+            
+            return [ move for move in moves if 0<=move[0]<=9 and 0<=move[1]<=8] #move with constraint
+               
+               
+
 class soldier:
     def __init__(self, row, col, color):
         self.col = col
@@ -158,3 +214,24 @@ class soldier:
 
     def draw(self, sur):
         sur.blit(self.img, (self.x, self.y))
+    
+
+    def possible_moves(self):
+        if self.color == 'black':
+            if self.row ==9:
+                moves = [(self.row, self.col-1), (self.row, self.col+1)]
+            else:
+                    moves = [ (self.row +1 , self.col )]
+                    if self.row > 4:
+                        moves.append((self.row , self.col -1 ),(self.row + 1 , self.col), (self.row, self.col +1))
+                    
+                        
+        elif self.color == 'red':
+            if self.row ==0:
+                moves = [(self.row, self.col-1), (self.row, self.col+1)]
+            else:
+                    moves = [ (self.row -1 , self.col)]
+                    if self.row < 5:
+                        moves.append((self.row - 1 , self.col),(self.row , self.col-1), (self.row, self.col +1))
+    
+        return [ move for move in moves if 0<=move[0]<=9 and 0<=move[1]<=8] #move with constraint
