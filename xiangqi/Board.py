@@ -13,6 +13,8 @@ BLACK_POS.append(advisor(0,5,'black'))
 BLACK_POS.append(elephant(0,6,'black'))
 BLACK_POS.append(horse(0,7,'black'))
 BLACK_POS.append(chariot(0,8,'black'))
+BLACK_POS.append(cannon(2,1,'black'))
+BLACK_POS.append(cannon(2,7,'black'))
 for i in range(0,9,2):
     BLACK_POS.append(soldier(3,i,'black'))
 
@@ -27,16 +29,29 @@ RED_POS.append(advisor(9,3,'red'))
 RED_POS.append(elephant(9,2,'red'))
 RED_POS.append(horse(9,1,'red'))
 RED_POS.append(chariot(9,0,'red'))
+RED_POS.append(cannon(7,1,'red'))
+RED_POS.append(cannon(7,7,'red'))
 for i in range(0,9,2):
     RED_POS.append(soldier(5,i,'red'))
+print('general: ', general(0,4,'black').possible_moves)
 
 
 class Board:
     def __init__(self):
-        self.board = []
+        self.board = [[None for _ in range(COLS+1) ] for _ in range(ROWS+1) ]
         self.turn = 0
         self.red_pieces = self.black_pieces = 16
         self.red_super_soldier = self.black_super_soldier = 0
+
+        #create back -end start game position
+        for black_piece in BLACK_POS:
+            row,col = black_piece.row, black_piece.col
+            self.board[row][col] = black_piece
+        for red_piece in RED_POS:
+            row,col = red_piece.row, red_piece.col
+            self.board[row][col] = red_piece
+        
+        print(self.board)
 
     def draw_board(self, sur):
         sur.fill(BROWN)

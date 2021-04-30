@@ -19,9 +19,9 @@ def main():
     while run:
         clock.tick(FPS)
         mouse_pos = pygame.mouse.get_pos()
-        colrow = (mouse_pos[0]//80, mouse_pos[1] // 80 )
+        rowcol = (mouse_pos[1]//80, mouse_pos[0] // 80 )
         
-        print(colrow)
+        #print(rowcol)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
