@@ -48,7 +48,7 @@ def main():
                             mouse_pos = pygame.mouse.get_pos()
                             end_row,end_col = mouse_pos[1]//80, mouse_pos[0] // 80 
                             board.move(board.board[row][col],end_row,end_col)
-                            print(board.score)
+                            print('score',board.score)
                             board.draw_board(WIN)
                             board.draw_pieces(WIN)
                             select = False

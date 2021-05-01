@@ -121,7 +121,7 @@ class Board:
 
                 elif piece.name == 'cannon' or piece.name == 'chariot':
                             count = 0
-                            if new_row == row_piece:
+                            if new_row == row_piece: #if new move space in the same row
                                 step = new_col - col_piece
                                 if step > 0:
                                     step = 1
@@ -140,7 +140,7 @@ class Board:
                                         capturable = True
                                 else:
                                     return False
-                            elif new_col == col_piece:
+                            elif new_col == col_piece: #if new move space in the same column
                                 step = new_row - row_piece
                                 if step > 0:
                                     step = 1
@@ -157,6 +157,7 @@ class Board:
                                 elif count ==1:
                                     if piece.name == 'cannon': #cannon can attack if there a piece on the way
                                         capturable = True
+                                        print('cannon hit')
                                 else:
                                     return False
                 elif piece.name == 'elephant':
@@ -182,7 +183,7 @@ class Board:
                                     piece.col = new_col
                                     self.score += score
                                     return True
-                if movable == True:
+                if movable == True and capture == False:
                                     #move piece in free space, just change it location
                                     self.board[new_row][new_col] = piece
                                     self.board[row_piece][col_piece] = None
